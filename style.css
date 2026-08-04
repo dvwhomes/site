@@ -1,0 +1,507 @@
+/* ============================================
+   Self-hosted Poppins (subset, latin only)
+   Replaces Google Fonts CDN: removes 2 external
+   DNS/TLS round trips and a render-blocking
+   cross-origin CSS fetch before text can paint.
+   ============================================ */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/poppins-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('assets/fonts/poppins-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('assets/fonts/poppins-700.woff2') format('woff2');
+}
+
+/* ============================================
+   DVW Homes — Design tokens
+   ============================================ */
+:root {
+  --navy: #10306b;
+  --navy-deep: #0b2350;
+  --orange: #f36c21;
+  --orange-deep: #d95c15;
+  /* AA-safe (4.5:1+ on white) variant for small text set in orange.
+     Bright --orange only hits ~3:1 on white/navy, which fails WCAG AA
+     for normal-size text — use --orange-text for labels/eyebrows. */
+  --orange-text: #b8551a;
+  --ink: #1d1d1d;
+  --body-text: #3a3f4a;
+  --bg: #f5f6f9;
+  --bg-alt: #eceef4;
+  --white: #ffffff;
+  --line: #dde1ea;
+
+  --font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --wrap: 1120px;
+  --header-h: 84px;
+
+  --shadow-sm: 0 1px 3px rgba(16, 48, 107, 0.08);
+  --shadow-md: 0 8px 24px rgba(16, 48, 107, 0.12);
+}
+
+/* ============================================
+   Reset
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--body-text);
+  background: var(--bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { margin: 0; padding: 0; list-style: none; }
+h1, h2, h3 { font-family: var(--font); color: var(--navy); margin: 0; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: -999px; top: 0; z-index: 200;
+  background: var(--orange); color: var(--white); padding: 12px 20px;
+  font-weight: 700;
+}
+.skip-link:focus { left: 0; }
+
+:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Anchor targets: offset for the sticky header so a nav click
+   doesn't land the heading underneath it. */
+section[id],
+#contact {
+  scroll-margin-top: var(--header-h);
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 13px 26px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+/* Primary CTA: solid navy (12.7:1 contrast) with an orange ring —
+   white text on brand orange only measures ~3:1, which fails WCAG AA
+   for normal-size button text. Orange stays as the accent border
+   instead of the fill, so the brand color is still front and center. */
+.btn-primary {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--orange);
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover { background: var(--navy-deep); border-color: var(--orange-deep); transform: translateY(-1px); }
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--navy);
+  color: var(--navy);
+}
+.btn-outline:hover { background: var(--navy); color: var(--white); }
+
+.btn-text {
+  padding: 13px 4px;
+  color: var(--navy);
+  font-weight: 700;
+  border-bottom: 2px solid transparent;
+}
+.btn-text:hover { border-bottom-color: var(--orange); }
+
+/* Same contrast issue as .btn-primary — white on orange fails AA.
+   White fill / navy text reads clearly against the navy header,
+   with orange kept as the border accent. */
+.btn-nav {
+  background: var(--white);
+  color: var(--navy);
+  border-color: var(--orange);
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.btn-nav:hover { background: var(--navy-deep); color: var(--white); border-color: var(--orange-deep); }
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+/* ============================================
+   Header / Nav
+   ============================================ */
+.site-header {
+  background: var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--orange);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.brand { display: inline-flex; }
+.brand-logo { height: 34px; width: auto; }
+
+.site-nav ul {
+  display: flex;
+  gap: 32px;
+}
+.site-nav a {
+  color: var(--white);
+  font-size: 0.92rem;
+  font-weight: 500;
+  opacity: 0.88;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+.site-nav a:hover { opacity: 1; border-bottom-color: var(--orange); }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  width: 24px;
+  background: var(--white);
+  margin: 0 auto;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* ============================================
+   Hero
+   ============================================ */
+.hero {
+  background:
+    radial-gradient(circle at 85% -10%, rgba(243,108,33,0.10), transparent 55%),
+    var(--bg);
+  padding: 72px 0 88px;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.hero-photo img {
+  border-radius: var(--radius-lg);
+  border: 6px solid var(--orange);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--orange-text);
+  margin: 0 0 14px;
+}
+.hero-copy h1 {
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+.serif-mark { color: var(--orange); font-weight: 500; }
+.hero-lede {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--navy);
+  margin: 20px 0 0;
+  max-width: 34ch;
+  line-height: 1.45;
+}
+.hero-facts {
+  margin-top: 28px;
+  display: grid;
+  gap: 10px;
+}
+.hero-facts li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 0.98rem;
+  color: var(--body-text);
+}
+.hero-facts li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+/* ============================================
+   Panels (section pattern)
+   ============================================ */
+.panel-header {
+  background: var(--navy);
+}
+.panel-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px;
+}
+.panel-header h2 {
+  color: var(--white);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.panel-logo { height: 22px; width: auto; opacity: 0.92; }
+
+.panel-body {
+  padding: 56px 0;
+  background: var(--white);
+}
+.panel-alt .panel-body { background: var(--bg-alt); }
+
+.prose {
+  max-width: 66ch;
+  font-size: 1.05rem;
+}
+.prose p { margin: 0 0 18px; }
+.prose-emphasis {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+/* Credentials grid */
+.credential-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.credential-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 30px 28px;
+  box-shadow: var(--shadow-sm);
+  border-top: 4px solid var(--orange);
+}
+.credential-card h3 {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange-text);
+  margin-bottom: 16px;
+}
+.credential-card ul { display: grid; gap: 10px; }
+.credential-card li {
+  font-weight: 500;
+  color: var(--navy);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* Approach / process list */
+.approach-intro {
+  font-size: 1.2rem;
+  color: var(--navy);
+  font-weight: 500;
+  margin: 0 0 36px;
+}
+.process-list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.process-list li {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 24px;
+  align-items: baseline;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+.process-num {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--orange);
+  font-variant-numeric: tabular-nums;
+}
+.process-list h3 {
+  display: block;
+  color: var(--navy);
+  font-size: 1.08rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+.process-list p { margin: 0; color: var(--body-text); }
+
+/* Link grid */
+.link-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.link-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--white);
+  border: 2px solid var(--orange);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+.link-card:hover { background: var(--navy); transform: translateY(-2px); }
+.link-card:hover .link-card-label,
+.link-card:hover .link-card-value { color: var(--white); }
+.link-card-label {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--orange-text);
+  font-weight: 700;
+}
+.link-card-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.site-footer {
+  background: var(--navy-deep);
+  color: rgba(255,255,255,0.85);
+  padding-top: 48px;
+}
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 32px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+}
+.footer-brand img { margin-bottom: 12px; }
+.footer-brand p { font-weight: 700; color: var(--white); margin: 0; }
+.footer-contact p { margin: 0 0 8px; font-size: 0.94rem; }
+.footer-contact a:hover { color: var(--orange); }
+.footer-links { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.footer-links a {
+  font-size: 0.94rem;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+}
+.footer-links a:hover { border-bottom-color: var(--orange); color: var(--orange); }
+
+.footer-bottom {
+  padding: 18px 24px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-photo { max-width: 320px; margin: 0 auto; }
+  .hero-copy { text-align: center; }
+  .hero-facts { justify-items: center; text-align: left; max-width: 360px; margin-inline: auto; }
+  .btn-row { justify-content: center; }
+  .credential-grid { grid-template-columns: 1fr; }
+  .link-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr; text-align: center; }
+  .footer-links { align-items: center; }
+}
+
+@media (max-width: 720px) {
+  .site-nav ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--navy);
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 24px 18px;
+    display: none;
+    border-bottom: 3px solid var(--orange);
+  }
+  .site-nav.open ul { display: flex; }
+  .site-nav a { display: block; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .nav-toggle { display: flex; }
+  .btn-nav { font-size: 0.82rem; padding: 9px 14px; }
+  .panel-header-inner { padding: 18px 24px; }
+  .panel-logo { display: none; }
+  .link-grid { grid-template-columns: 1fr; }
+  .process-list li { grid-template-columns: 48px 1fr; }
+}

@@ -55,12 +55,44 @@
     .sample-grid { grid-template-columns: 1fr; }
   }
 
+  .text-col { max-width: 640px; }
+
+  /* Plain white background across every section on this page. */
+  body { background: var(--white); }
+  .hero, .panel-body, .panel-alt .panel-body { background: var(--white); }
+
+  /* Single unified CTA style used for every "Add it to Your Newsletter"
+     button on the page (hero, section reminders, and the final submit) —
+     very light orange fill, navy on hover, squarish two-line shape. */
+  .btn-cta {
+    display: inline-block;
+    text-align: center;
+    line-height: 1.25;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: 2px solid var(--navy);
+    background: var(--orange);
+    color: var(--white);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-cta:hover {
+    background: var(--orange-deep);
+    border-color: var(--navy-deep);
+    color: var(--white);
+  }
+  .cta-row-left {
+    display: flex;
+    justify-content: flex-start;
+  }
   .compare-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     margin-top: 28px;
-    max-width: 640px;
+    max-width: 900px;
   }
   .compare-card {
     background: var(--white);
@@ -134,7 +166,7 @@
     border-radius: var(--radius-md);
     padding: 32px;
     box-shadow: var(--shadow-md);
-    max-width: 560px;
+    max-width: 640px;
   }
   .claim-form p.form-lede { margin: 0 0 22px; color: var(--body-text); }
   .form-field { margin-bottom: 16px; }
@@ -184,11 +216,11 @@
   <section class="hero" id="top">
     <div class="wrap">
       <p class="eyebrow">For Des Moines Neighborhood Associations</p>
-      <h1 style="max-width: 22ch; font-size: clamp(2rem, 4vw, 2.8rem);">What's Happening in Your Neighborhood's Real Estate Market?</h1>
-      <p class="hero-lede" style="max-width: 50ch;">Get a free quarterly market update built specifically for your neighborhood &mdash; not your ZIP code, city, or the entire metro.</p>
-      <p style="max-width: 50ch; color: var(--body-text); margin-top: 18px;">Based on local MLS data and formatted to drop directly into your neighborhood newsletter.</p>
-      <div class="btn-row">
-        <a href="#claim" class="btn btn-primary">Get Your Neighborhood Update</a>
+      <h1 class="text-col" style="font-size: clamp(2rem, 4vw, 2.8rem);">What's Happening in Your Neighborhood's Real Estate Market?</h1>
+      <p class="hero-lede text-col">Get a free quarterly market update built specifically for your neighborhood &mdash; not your ZIP code, city, or the entire metro.</p>
+      <p class="text-col" style="color: var(--body-text); margin-top: 18px;">Based on local MLS data and formatted to drop directly into your neighborhood newsletter.</p>
+      <div class="cta-row-left">
+        <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
       </div>
     </div>
   </section>
@@ -202,9 +234,9 @@
     </div>
     <div class="panel-body">
       <div class="wrap">
-        <p style="max-width: 62ch; color: var(--body-text);">Most real estate market reports are too broad to tell residents much about their own neighborhood.</p>
-        <p style="max-width: 62ch; color: var(--body-text);">Metro-wide statistics cover thousands of homes. ZIP code and city reports can still include hundreds of properties with very different market conditions.</p>
-        <p style="max-width: 62ch; color: var(--body-text);">This update focuses specifically on your neighborhood's MLS-defined boundaries, giving residents a clearer picture of how prices, market time and sales activity are actually behaving where they live.</p>
+        <p class="text-col" style="color: var(--body-text);">Most real estate market reports are too broad to tell residents much about their own neighborhood.</p>
+        <p class="text-col" style="color: var(--body-text);">Metro-wide statistics cover thousands of homes. ZIP code and city reports can still include hundreds of properties with very different market conditions.</p>
+        <p class="text-col" style="color: var(--body-text);">This update focuses specifically on your neighborhood's MLS-defined boundaries, giving residents a clearer picture of how prices, market time and sales activity are actually behaving where they live.</p>
 
         <div class="compare-grid">
           <div class="compare-card">
@@ -215,6 +247,10 @@
             <p class="compare-label">This Update</p>
             <p class="compare-value">Your Neighborhood</p>
           </div>
+        </div>
+
+        <div class="cta-row-left" style="margin-top: 20px;">
+          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
         </div>
       </div>
     </div>
@@ -229,7 +265,7 @@
     </div>
     <div class="panel-body">
       <div class="wrap">
-        <p style="max-width: 60ch; color: var(--body-text); margin-top: -8px; margin-bottom: 28px;">A simple, newsletter-ready look at what is actually happening in your neighborhood.</p>
+        <p class="text-col" style="color: var(--body-text); margin-top: -8px; margin-bottom: 28px;">A simple, newsletter-ready look at what is actually happening in your neighborhood.</p>
         <div class="sample-grid">
           <div>
             <img src="assets/sample-waterbury.jpg" alt="Sample Fall 2026 real estate market update graphic for the Waterbury neighborhood">
@@ -240,8 +276,8 @@
             <p class="sample-caption">Westwood Neighborhood &middot; Fall 2026</p>
           </div>
         </div>
-        <div class="btn-row" style="margin-top: 32px;">
-          <a href="assets/sample-waterbury.jpg" target="_blank" rel="noopener" class="btn btn-outline">View Sample Update</a>
+        <div class="cta-row-left" style="margin-top: 20px;">
+          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
         </div>
       </div>
     </div>
@@ -266,9 +302,13 @@
             <p>A finished graphic you can publish as-is in print or email.</p>
           </div>
           <div class="includes-card">
-            <h3>Quarterly Updates</h3>
-            <p>A fresh update each quarter so residents can see how their neighborhood's market is changing over time.</p>
+            <h3>Updates to Meet Your Schedule</h3>
+            <p>A fresh update each issue so residents can see how their neighborhood's market is changing over time.</p>
           </div>
+        </div>
+
+        <div class="cta-row-left" style="margin-top: 20px;">
+          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
         </div>
       </div>
     </div>
@@ -292,6 +332,10 @@
             <p>Try it out. Continue receiving updates only if they are useful to your residents.</p>
           </div>
         </div>
+
+        <div class="cta-row-left" style="margin-top: 20px;">
+          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
+        </div>
       </div>
     </div>
   </section>
@@ -305,7 +349,7 @@
     </div>
     <div class="panel-body">
       <div class="wrap">
-        <p style="max-width: 62ch; color: var(--body-text);">My background is in construction engineering and project management, where specific and detailed data analysis is a necessity. I use this same approach in real estate.</p>
+        <p class="text-col" style="color: var(--body-text);">My background is in construction engineering and project management, where specific and detailed data analysis is a necessity. I use this same approach in real estate.</p>
 
         <p style="margin-top: 24px; margin-bottom: 2px; font-weight: 700; color: var(--navy);">Dustin VandeWeerd, REALTOR&reg;</p>
         <p style="margin: 0; color: var(--body-text);">Iowa License #S73837000 &middot; Real Broker, LLC &middot; DVW Homes</p>
@@ -318,6 +362,10 @@
         <p style="margin-top: 20px;"><a href="https://www.linkedin.com/in/dvwhomes/" target="_blank" rel="noopener" style="color: var(--navy); font-weight: 600;">linkedin.com/in/dvwhomes</a></p>
 
         <p style="font-weight: 600; color: var(--navy); margin-top: 20px;">DVW Homes &middot; Des Moines, Iowa</p>
+
+        <div class="cta-row-left" style="margin-top: 20px;">
+          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
+        </div>
       </div>
     </div>
   </section>
@@ -331,8 +379,8 @@
     </div>
     <div class="panel-body">
       <div class="wrap">
-        <p style="max-width: 60ch; color: var(--body-text); margin-top: -8px;">Interested in receiving a quarterly real estate update for your neighborhood?</p>
-        <p style="max-width: 60ch; color: var(--body-text); margin-bottom: 28px;">Send your contact information and I'll confirm the details and get your first update started.</p>
+        <p class="text-col" style="color: var(--body-text); margin-top: -8px;">Interested in receiving a quarterly real estate update for your neighborhood?</p>
+        <p class="text-col" style="color: var(--body-text); margin-bottom: 28px;">Send your contact information and I'll confirm the details and get your first update started.</p>
 
         <div class="claim-form">
           <form id="optin-form">
@@ -342,9 +390,9 @@
               <label for="contact">Email or phone</label>
               <input type="text" id="contact" name="contact" placeholder="you@example.com or 515-555-0100" required>
             </div>
-            <button type="submit" class="btn btn-primary" id="optin-submit">Request Your Neighborhood Update</button>
+            <button type="submit" class="btn btn-primary" id="optin-submit">Add It to Your Neighborhood Newsletter</button>
           </form>
-          <p id="optin-status" role="status" style="margin: 14px 0 0; font-size: 0.92rem;"></p>
+          <p id="optin-status" role="status" style="margin: 18px 0 0; font-size: 1.35rem; font-weight: 700; color: var(--navy);"></p>
           <p style="margin: 18px 0 0; font-size: 0.88rem; color: var(--body-text);"><em>No obligation. No cost to your association.</em></p>
 
           <p style="margin: 18px 0 0; font-size: 0.9rem; color: var(--body-text);">
@@ -378,7 +426,7 @@
             .then(function (result) {
               if (result.success) {
                 form.style.display = 'none';
-                status.textContent = "You're on the list. First graphic goes out next quarter.";
+                status.textContent = "You're on the list! We'll be in touch to work out the details.";
                 status.style.color = 'var(--navy)';
               } else {
                 throw new Error(result.message || 'Submission failed');
@@ -386,7 +434,7 @@
             })
             .catch(function () {
               submitBtn.disabled = false;
-              submitBtn.textContent = 'Request Your Neighborhood Update';
+              submitBtn.textContent = 'Add It to Your Neighborhood Newsletter';
               status.textContent = 'Something went wrong — email dustin@dvwhomes.com directly instead.';
               status.style.color = 'var(--orange-text)';
             });

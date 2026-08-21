@@ -30,6 +30,52 @@
 <link rel="stylesheet" href="../style.css">
 
 <style>
+  /* ============================================================
+     QUICK-TWEAK CONTROLS — change a value here and it updates
+     everywhere it's used on the page.
+
+     Brand colors below are overridden here (scoped to this page
+     only, via a second :root block loaded after style.css) rather
+     than edited in the shared stylesheet — that keeps this page's
+     brighter, brand-true palette from bleeding into the main site,
+     which currently uses a softer, muted redesign palette.
+     ============================================================ */
+  :root {
+    /* Brand palette — DVW Homes logo colors, used consistently
+       across every section on this page. */
+    --navy: #10306b;
+    --navy-deep: #0b2350;
+    --orange: #f36c21;
+    --orange-deep: #d1571a;
+    --orange-text: #b3540f;
+    --white: #ffffff;
+    --bg: #ffffff;       /* page background — no alternating tint */
+    --bg-alt: #ffffff;   /* was a light blue-gray; now matches --bg */
+    --body-text: #3d4552;
+    --line: #e2e4e8;
+    --radius-sm: 5px;
+    --radius-md: 6px;
+    --shadow-sm: 0 1px 3px rgba(16, 48, 107, 0.08);
+    --shadow-md: 0 4px 14px rgba(16, 48, 107, 0.10);
+
+    --page-bg: var(--white);
+    --content-width: 640px;
+
+    /* Standard recurring CTA ("Add it to Your Newsletter" reminders) */
+    --cta-bg: var(--navy);
+    --cta-bg-hover: var(--navy-deep);
+    --cta-border: var(--orange);
+    --cta-border-hover: var(--orange);
+    --cta-border-width: 1px;
+    --cta-radius: 5px;
+    --cta-text-color: var(--white);
+    --cta-font-size: 0.92rem;
+    --cta-font-weight: 600;
+    --cta-padding: 10px 18px;
+    --cta-text-align: left;
+    --cta-gap-above: 24px;
+  }
+
   /* Page-specific additions, layered on top of the shared design tokens.
      Nothing here overrides brand colors/fonts — it only adds patterns
      this page needs that the one-pager doesn't (sample frame, form). */
@@ -55,38 +101,84 @@
     .sample-grid { grid-template-columns: 1fr; }
   }
 
-  .text-col { max-width: 640px; }
+  .text-col { max-width: var(--content-width); }
 
-  /* Plain white background across every section on this page. */
-  body { background: var(--white); }
-  .hero, .panel-body, .panel-alt .panel-body { background: var(--white); }
+  /* One consistent white background across every section on this page. */
+  body { background: var(--page-bg); }
+  .hero, .panel-body, .panel-alt .panel-body { background: var(--page-bg); }
 
-  /* Single unified CTA style used for every "Add it to Your Newsletter"
-     button on the page (hero, section reminders, and the final submit) —
-     very light orange fill, navy on hover, squarish two-line shape. */
+  /* Reduced, consistent top spacing for every section after the hero
+     (hero keeps its own original spacing). Shared style.css defaults
+     each .panel-body to 56px top/bottom; that's more than this page
+     needs and reads as inconsistent gaps between sections. */
+  .panel-body { padding: 36px 0 56px; }
+
+  /* What's Included and Reassurance are one continuous visual block
+     (Reassurance has no navy header band), so the default top/bottom
+     padding on each stacked on top of the other and left an oversized
+     gap where the middle button used to be. Tighten just that seam. */
+  #included .panel-body { padding-bottom: 12px; }
+  #reassurance .panel-body { padding-top: 12px; }
+
+  /* Restrained hero typography hierarchy — eyebrow small, headline the
+     clear focal point but not oversized, lead paragraph subordinate,
+     supporting line smaller still. */
+  .hero { padding: 56px 0 64px; }
+  .hero .eyebrow { font-size: 0.8rem; }
+  .hero h1 { line-height: 1.15; margin-top: 10px; }
+  .hero .hero-lede { font-size: 1.1rem; margin-top: 14px; }
+  .hero .supporting-line { font-size: 0.92rem; color: var(--body-text); margin-top: 10px; }
+
+  /* Standard recurring CTA — restrained, professional, not a pill. */
   .btn-cta {
     display: inline-block;
-    text-align: center;
-    line-height: 1.25;
-    font-size: 0.95rem;
-    font-weight: 700;
-    padding: 12px 22px;
-    border-radius: 10px;
-    border: 2px solid var(--navy);
-    background: var(--orange);
-    color: var(--white);
+    text-align: var(--cta-text-align);
+    line-height: 1.3;
+    font-size: var(--cta-font-size);
+    font-weight: var(--cta-font-weight);
+    padding: var(--cta-padding);
+    border-radius: var(--cta-radius);
+    border: var(--cta-border-width) solid var(--cta-border);
+    background: var(--cta-bg);
+    color: var(--cta-text-color);
     text-decoration: none;
     cursor: pointer;
   }
   .btn-cta:hover {
-    background: var(--orange-deep);
-    border-color: var(--navy-deep);
-    color: var(--white);
+    background: var(--cta-bg-hover);
+    border-color: var(--cta-border-hover);
+    color: var(--cta-text-color);
   }
   .cta-row-left {
     display: flex;
     justify-content: flex-start;
   }
+
+  /* Final CTA — the one real conversion action, deliberately distinct:
+     orange fill, navy text, navy border, slightly larger than the
+     standard CTA, same corner radius as the rest of the system. */
+  .btn-final {
+    display: inline-block;
+    text-align: center;
+    line-height: 1.3;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 13px 22px;
+    border-radius: var(--cta-radius);
+    border: 2px solid var(--navy);
+    background: var(--orange);
+    color: var(--navy);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-final:hover {
+    background: var(--orange-deep);
+    border-color: var(--navy-deep);
+    color: var(--navy);
+  }
+
+  /* Unified card system — comparison cards and info cards share the
+     same corner radius, border, shadow, and padding logic. */
   .compare-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -96,8 +188,9 @@
   }
   .compare-card {
     background: var(--white);
+    border: 1px solid var(--line);
     border-radius: var(--radius-md);
-    padding: 26px 22px;
+    padding: 24px 22px;
     text-align: center;
     box-shadow: var(--shadow-sm);
     border-top: 3px solid var(--line);
@@ -106,14 +199,14 @@
     border-top-color: var(--orange);
   }
   .compare-label {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--body-text);
     margin: 0 0 10px;
   }
   .compare-value {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--navy);
     margin: 0;
@@ -131,6 +224,7 @@
   }
   .includes-card {
     background: var(--white);
+    border: 1px solid var(--line);
     border-radius: var(--radius-md);
     padding: 22px 22px;
     box-shadow: var(--shadow-sm);
@@ -142,31 +236,13 @@
   }
   .includes-card p { margin: 0; font-size: 0.92rem; color: var(--body-text); }
 
-  .not-list {
-    display: grid;
-    gap: 10px;
-    margin-top: 18px;
-  }
-  .not-list li {
-    position: relative;
-    padding-left: 22px;
-    font-size: 0.98rem;
-    color: var(--body-text);
-  }
-  .not-list li::before {
-    content: '\2713';
-    position: absolute;
-    left: 0;
-    color: var(--orange-text);
-    font-weight: 700;
-  }
-
   .claim-form {
     background: var(--white);
+    border: 1px solid var(--line);
     border-radius: var(--radius-md);
     padding: 32px;
     box-shadow: var(--shadow-md);
-    max-width: 640px;
+    max-width: var(--content-width);
   }
   .claim-form p.form-lede { margin: 0 0 22px; color: var(--body-text); }
   .form-field { margin-bottom: 16px; }
@@ -206,7 +282,6 @@
         <img src="../assets/real-broker-logo-white.png" alt="Real Broker, LLC" width="74" height="34" class="lockup-real">
       </span>
     </a>
-    <a href="tel:5157100311" class="btn btn-nav">515.710.0311</a>
   </div>
 </header>
 
@@ -216,42 +291,24 @@
   <section class="hero" id="top">
     <div class="wrap">
       <p class="eyebrow">For Des Moines Neighborhood Associations</p>
-      <h1 class="text-col" style="font-size: clamp(2rem, 4vw, 2.8rem);">What's Happening in Your Neighborhood's Real Estate Market?</h1>
-      <p class="hero-lede text-col">Get a free quarterly market update built specifically for your neighborhood &mdash; not your ZIP code, city, or the entire metro.</p>
-      <p class="text-col" style="color: var(--body-text); margin-top: 18px;">Based on local MLS data and formatted to drop directly into your neighborhood newsletter.</p>
-      <div class="cta-row-left">
-        <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
-      </div>
-    </div>
-  </section>
+      <h1 class="text-col" style="font-size: clamp(1.9rem, 3.6vw, 2.5rem);">What's Happening in Your Neighborhood's Real Estate Market?</h1>
+      <p class="hero-lede text-col">Most real estate market reports are too broad to tell residents much about their own neighborhood.</p>
+      <p class="text-col supporting-line">Metro-wide statistics cover thousands of homes, and ZIP code and city reports don't show hyper-local trends.</p>
+      <p class="text-col supporting-line">This update focuses specifically on your association boundaries, giving residents a clearer picture of how prices, market speed and sales activity are actually behaving where they live.</p>
 
-  <!-- DIFFERENTIATION -->
-  <section class="panel" id="why" aria-labelledby="why-h">
-    <div class="panel-header">
-      <div class="wrap panel-header-inner">
-        <h2 id="why-h">Why Neighborhood-Level Data Matters</h2>
-      </div>
-    </div>
-    <div class="panel-body">
-      <div class="wrap">
-        <p class="text-col" style="color: var(--body-text);">Most real estate market reports are too broad to tell residents much about their own neighborhood.</p>
-        <p class="text-col" style="color: var(--body-text);">Metro-wide statistics cover thousands of homes. ZIP code and city reports can still include hundreds of properties with very different market conditions.</p>
-        <p class="text-col" style="color: var(--body-text);">This update focuses specifically on your neighborhood's MLS-defined boundaries, giving residents a clearer picture of how prices, market time and sales activity are actually behaving where they live.</p>
-
-        <div class="compare-grid">
-          <div class="compare-card">
-            <p class="compare-label">Typical Market Report</p>
-            <p class="compare-value">Metro &middot; City &middot; ZIP Code</p>
-          </div>
-          <div class="compare-card compare-card--highlight">
-            <p class="compare-label">This Update</p>
-            <p class="compare-value">Your Neighborhood</p>
-          </div>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <p class="compare-label">Typical Market Report</p>
+          <p class="compare-value">Metro &middot; City &middot; ZIP Code</p>
         </div>
-
-        <div class="cta-row-left" style="margin-top: 20px;">
-          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
+        <div class="compare-card compare-card--highlight">
+          <p class="compare-label">This Update</p>
+          <p class="compare-value">Your Neighborhood</p>
         </div>
+      </div>
+
+      <div class="cta-row-left" style="margin-top: var(--cta-gap-above);">
+        <a href="#claim" class="btn-cta">Opt In for Market Updates</a>
       </div>
     </div>
   </section>
@@ -265,7 +322,7 @@
     </div>
     <div class="panel-body">
       <div class="wrap">
-        <p class="text-col" style="color: var(--body-text); margin-top: -8px; margin-bottom: 28px;">A simple, newsletter-ready look at what is actually happening in your neighborhood.</p>
+        <p class="text-col" style="color: var(--body-text); margin-top: -8px; margin-bottom: 28px;">These are sample reports &mdash; yours can be adapted to fit your needs.</p>
         <div class="sample-grid">
           <div>
             <img src="assets/sample-waterbury.jpg" alt="Sample Fall 2026 real estate market update graphic for the Waterbury neighborhood">
@@ -276,8 +333,8 @@
             <p class="sample-caption">Westwood Neighborhood &middot; Fall 2026</p>
           </div>
         </div>
-        <div class="cta-row-left" style="margin-top: 20px;">
-          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
+        <div class="cta-row-left" style="margin-top: var(--cta-gap-above);">
+          <a href="#claim" class="btn-cta">Opt In for Market Updates</a>
         </div>
       </div>
     </div>
@@ -306,10 +363,6 @@
             <p>A fresh update each issue so residents can see how their neighborhood's market is changing over time.</p>
           </div>
         </div>
-
-        <div class="cta-row-left" style="margin-top: 20px;">
-          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
-        </div>
       </div>
     </div>
   </section>
@@ -333,8 +386,8 @@
           </div>
         </div>
 
-        <div class="cta-row-left" style="margin-top: 20px;">
-          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
+        <div class="cta-row-left" style="margin-top: var(--cta-gap-above);">
+          <a href="#claim" class="btn-cta">Opt In for Market Updates</a>
         </div>
       </div>
     </div>
@@ -349,22 +402,26 @@
     </div>
     <div class="panel-body">
       <div class="wrap">
-        <p class="text-col" style="color: var(--body-text);">My background is in construction engineering and project management, where specific and detailed data analysis is a necessity. I use this same approach in real estate.</p>
+        <p class="text-col" style="color: var(--body-text);">My background is in construction, engineering and project management, where specific and detailed data analysis is a necessity. I use this same approach in real estate.</p>
 
         <p style="margin-top: 24px; margin-bottom: 2px; font-weight: 700; color: var(--navy);">Dustin VandeWeerd, REALTOR&reg;</p>
         <p style="margin: 0; color: var(--body-text);">Iowa License #S73837000 &middot; Real Broker, LLC &middot; DVW Homes</p>
 
-        <p style="margin-top: 20px; margin-bottom: 4px; color: var(--body-text);">Former Director of Facilities at Prairie Meadows Racetrack &amp; Casino</p>
-        <p style="margin: 0 0 4px; color: var(--body-text);">22 years Construction Management &middot; 16 years Property Management &middot; 5 years Real Estate Professional</p>
-        <p style="margin: 0 0 4px; color: var(--body-text);">B.S. Engineering, Iowa State University</p>
-        <p style="margin: 0; color: var(--body-text);">Project Management Professional (PMP&reg;) Certification</p>
+        <ul style="margin: 20px 0 0; padding-left: 20px; color: var(--body-text); font-weight: 600;">
+          <li style="margin-bottom: 4px;">Former Director of Facilities at Prairie Meadows Racetrack &amp; Casino</li>
+          <li style="margin-bottom: 4px;">22 years Construction Management &middot; 16 years Property Management &middot; 5 years Real Estate Professional</li>
+          <li style="margin-bottom: 4px;">B.S. Engineering, Iowa State University</li>
+          <li>Project Management Professional (PMP&reg;) Certification</li>
+        </ul>
 
-        <p style="margin-top: 20px;"><a href="https://www.linkedin.com/in/dvwhomes/" target="_blank" rel="noopener" style="color: var(--navy); font-weight: 600;">linkedin.com/in/dvwhomes</a></p>
+        <div class="cta-row-left" style="margin-top: 20px;">
+          <a href="https://www.linkedin.com/in/dvwhomes/" target="_blank" rel="noopener" class="btn-cta">View Professional Profile</a>
+        </div>
 
         <p style="font-weight: 600; color: var(--navy); margin-top: 20px;">DVW Homes &middot; Des Moines, Iowa</p>
 
-        <div class="cta-row-left" style="margin-top: 20px;">
-          <a href="#claim" class="btn-cta">Add it to<br>Your Newsletter</a>
+        <div class="cta-row-left" style="margin-top: var(--cta-gap-above);">
+          <a href="#claim" class="btn-cta">Opt In for Market Updates</a>
         </div>
       </div>
     </div>
@@ -379,8 +436,7 @@
     </div>
     <div class="panel-body">
       <div class="wrap">
-        <p class="text-col" style="color: var(--body-text); margin-top: -8px;">Interested in receiving a quarterly real estate update for your neighborhood?</p>
-        <p class="text-col" style="color: var(--body-text); margin-bottom: 28px;">Send your contact information and I'll confirm the details and get your first update started.</p>
+        <p class="text-col" style="color: var(--body-text); margin-top: -8px; margin-bottom: 28px;">If you'd like to participate in the market update program simply opt in below. I'll reach out to confirm details and get started.</p>
 
         <div class="claim-form">
           <form id="optin-form">
@@ -390,7 +446,7 @@
               <label for="contact">Email or phone</label>
               <input type="text" id="contact" name="contact" placeholder="you@example.com or 515-555-0100" required>
             </div>
-            <button type="submit" class="btn btn-primary" id="optin-submit">Add It to Your Neighborhood Newsletter</button>
+            <button type="submit" class="btn-final" id="optin-submit">Opt In for Market Updates</button>
           </form>
           <p id="optin-status" role="status" style="margin: 18px 0 0; font-size: 1.35rem; font-weight: 700; color: var(--navy);"></p>
           <p style="margin: 18px 0 0; font-size: 0.88rem; color: var(--body-text);"><em>No obligation. No cost to your association.</em></p>
@@ -434,7 +490,7 @@
             })
             .catch(function () {
               submitBtn.disabled = false;
-              submitBtn.textContent = 'Add It to Your Neighborhood Newsletter';
+              submitBtn.textContent = 'Opt In for Market Updates';
               status.textContent = 'Something went wrong — email dustin@dvwhomes.com directly instead.';
               status.style.color = 'var(--orange-text)';
             });
@@ -444,6 +500,10 @@
       </div>
     </div>
   </section>
+
+  <div class="wrap" style="text-align: center; padding: 40px 0;">
+    <a href="https://dvwhomes.com" class="btn-cta" style="text-align: center;">dvwhomes.com</a>
+  </div>
 
 </main>
 

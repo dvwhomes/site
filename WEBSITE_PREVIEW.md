@@ -2,7 +2,7 @@
 
 Base commit: 218a11d27b5fdeef1a6a6c9d0443911dc54eff9d
 Branch: website-approved-design-preview
-Status: local implementation; not pushed, not published.
+Status: hosted review branch; not merged or published to dvwhomes.com.
 
 ## Design authority
 Latest approved roomy image from this conversation: exec-c72fd20a-23b6-4e38-8dbe-e05fee082cc1.png. Current user instructions supersede older website blueprints. Layout is locked; changes are for content fitting, usability, and accessibility only. Sage supported by Everyman and Creator.
@@ -25,8 +25,15 @@ Latest approved roomy image from this conversation: exec-c72fd20a-23b6-4e38-8dbe
 - JSON-LD parses; obsolete FAQ structured data removed from homepage.
 - JavaScript syntax and git whitespace checks pass.
 
-## Validation NOT completed
-Visual browser review, computed layout/overflow, mobile menu interaction, and form interaction. Local Chromium was unavailable; browser security policy blocked local-file review. Do not claim desktop/mobile browser QA passed.
+## Browser validation completed
+- Hosted desktop preview inspected at 1363 × 936.
+- Homepage, FAQ, and market-analysis routes load without broken images or horizontal overflow.
+- Approved desktop proportions and typography compared against the accepted mockup.
+- DVW Homes logo color rendering corrected; FAQ now has a level-one page heading.
+
+## Validation still required
+- Phone and tablet visual QA, including the mobile menu.
+- Final form delivery, validation, error-state, and spam-prevention testing after destinations are configured.
 
 ## Launch items
 1. Review final copy in context, including $80M project total (user's latest supplied figure), roles, and services.

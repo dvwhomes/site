@@ -129,3 +129,7 @@ body { font-weight: 400; }
   .message-form input { margin-bottom: 12px; }
   .message-form textarea { margin-top: 0; }
 }
+
+
+/* Keep the supplied DVW Homes logo colors intact on the navy brand bands. */
+.dvw-logo { filter: none; }

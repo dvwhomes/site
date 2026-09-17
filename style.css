@@ -130,9 +130,10 @@ body { font-weight: 400; }
   .message-form textarea { margin-top: 0; }
 }
 
-
 /* Keep the supplied DVW Homes logo colors intact on the navy brand bands. */
 .dvw-logo { filter: none; }
+.honeypot { display: none !important; }
+.button:disabled { opacity: .65; cursor: wait; }
 
 /* Approved role and service lists remain readable as copy grows. */
 .role-grid ul, .service-grid ul { margin: .5em 0 0; padding-left: 1.15em; }

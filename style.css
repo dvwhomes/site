@@ -133,3 +133,13 @@ body { font-weight: 400; }
 
 /* Keep the supplied DVW Homes logo colors intact on the navy brand bands. */
 .dvw-logo { filter: none; }
+
+/* Approved role and service lists remain readable as copy grows. */
+.role-grid ul, .service-grid ul { margin: .5em 0 0; padding-left: 1.15em; }
+.role-grid li, .service-grid li { margin-bottom: .35em; }
+.role-grid ul { font-size: 16px; line-height: 1.5; }
+.service-grid ul { font-size: 17px; line-height: 1.5; }
+@media (min-width: 701px) {
+  .role-grid ul { font-size: calc(12 * var(--u)); line-height: 1.3; }
+  .service-grid ul { font-size: calc(11.5 * var(--u)); line-height: 1.35; }
+}

@@ -1,0 +1,10 @@
+.git/
+.git/**
+.github/
+.github/**
+.openai/
+.openai/**
+.assetsignore
+wrangler.jsonc
+README.md
+WEBSITE_PREVIEW.md
